@@ -39,7 +39,8 @@ jobs:
           command: test
       - name: Setup database
         run: |
-          docker-compose up
+          docker-compose up -d
+          until [[ `docker logs db 2>&1 | grep "system is ready" | wc -l` -gt 0 ]]; do sleep 1; echo "Waiting for db." ; done
       - name: Run
         run: |
           ./target/release/rust-database-postgres
