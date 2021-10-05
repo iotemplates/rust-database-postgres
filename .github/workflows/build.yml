@@ -37,3 +37,13 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: test
+      - name: Setup database
+        run: |
+          docker-compose up
+      - name: Run
+        run: |
+          ./target/release/rust-database-postgres
+      - name: Teardown database
+        run: |
+          docker-compose kill -f
+          docker-compose rm -f 
